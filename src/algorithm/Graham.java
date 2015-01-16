@@ -22,9 +22,6 @@ public class Graham {
 	public Graham(String path){
 		collectionQ = new LinkedList<Point>();
 		stack = new Stack<Point>();
-		//R=Math.sqrt(x^2+y^2)
-		//theta=Math.atan2(y,x)
-		//TODO: wczytanie z pliku
 		readFromFile(path);
 	}
 	
