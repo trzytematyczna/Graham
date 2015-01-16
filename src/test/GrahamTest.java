@@ -13,6 +13,7 @@ import algorithm.Point;
 public class GrahamTest {
 
 	String csvFile = "C://Users//MZ//Documents//mra//agh//algo//graham//punktyPrzykladowe.csv";
+//	String csvFile = "C://Users//MZ//Documents//mra//agh//algo//graham//pkt.csv";
 	Graham graham;
 	
 	@Before
