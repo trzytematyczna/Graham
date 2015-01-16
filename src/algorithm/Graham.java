@@ -36,11 +36,9 @@ public class Graham {
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
 			while ((line = br.readLine()) != null) {
-		        // use comma as separator
 				String[] coord = line.split(cvsSplitBy);
-//				System.out.println(coord[0]+" "+coord[1]);
 				Point p = new Point(Double.valueOf(coord[0]), Double.valueOf(coord[1]));
-				collectionQ.add(p);
+				this.collectionQ.add(p);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -60,6 +58,8 @@ public class Graham {
 	public Stack<Point> go(){
 		if(collectionQ.size()<3) throw new RuntimeException("Too little points");
 		Point p0 = smallestPoint();
+		
+		this.collectionQ.remove(p0);
 		Collections.sort(collectionQ, new Comparator<Point>() {
 			@Override
 			public int compare(Point top, Point next) {
@@ -74,44 +74,24 @@ public class Graham {
 			}
 			
 		});
-		
-		for(Point p : collectionQ){
-			System.out.println("== "+p.x+","+p.y);
-		}
-		this.collectionQ.remove(p0);
 		this.collectionQ.addFirst(p0);
 		throwDuplicates();
-		for(Point p : collectionQ){
-			System.out.println(p.x+","+p.y);
-		}
-//		stack.push(p0);
-		System.out.println(collectionQ.get(0).x+" "+collectionQ.get(1).x+" "+collectionQ.get(2).x);
 		stack.push(collectionQ.get(0));
 		stack.push(collectionQ.get(1));
 		stack.push(collectionQ.get(2));
 		for(int i=3; i<collectionQ.size(); i++){
-//			while(stack.size()>=2 && 
-//					onRight(this.collectionQ.get(i), stack.get(stack.size()-1), stack.get(stack.size()-2))){
 			Point p = this.collectionQ.get(i);
 			Point top = this.stack.get(this.stack.size()-1);
 			Point next =  this.stack.get(this.stack.size()-2);
-			if(isEqual(top.x, 36.93711432433488)) {
-				System.out.println(p.x+" "+next.x);
-				System.out.println(onRight(p, top, next));
-				System.out.println(p.det(top, next));
-			}
 			while(onRight(p, top, next)){
 				stack.pop();
 				top = this.stack.get(this.stack.size()-1);
 				next =  this.stack.get(this.stack.size()-2);				
 			}
 			stack.push(this.collectionQ.get(i));
-			System.out.println(stack.size());
 		}
 		return stack;
 	}
-
-	
 
 	private boolean onRight(Point pi, Point top, Point nextToTop) {
 		double det = pi.det(top, nextToTop);
@@ -120,7 +100,6 @@ public class Graham {
 
 	private void throwDuplicates() {
 		LinkedList<Point> toRemove = new LinkedList<Point>();
-		System.out.println("pivooot"+this.collectionQ.get(0).x+","+this.collectionQ.get(0).y);
 		Point prev = this.collectionQ.get(1);
 		
 		for(int i=2; i<this.collectionQ.size(); i++){
